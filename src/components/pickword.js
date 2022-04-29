@@ -4,7 +4,7 @@ import words from '../assets/words.json'
 
 const storageKey = 'LWORDLE'
 
-export const PickWord = ({ onClick }) => {
+export const PickWord = ({ word, onClick }) => {
   const [lWord, setLWord] = useState()
 
   useEffect(() => {
@@ -34,6 +34,10 @@ export const PickWord = ({ onClick }) => {
     e.preventDefault()
     localStorage.setItem(storageKey, String(lWord))
     onClick(words[lWord])
+  }
+
+  if (word) {
+    return null
   }
 
   return (
