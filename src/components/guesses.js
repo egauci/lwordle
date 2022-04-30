@@ -15,6 +15,9 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
     <tbody>
       {
         guesses.map((tr, trix) => {
+          if (trix > 5) {
+            return null
+          }
           return <tr key={trix}>
             {
               tr.map((td, tdix) => {

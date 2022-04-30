@@ -4,7 +4,7 @@ import words from '../assets/words.json'
 
 const storageKey = 'LWORDLE'
 
-export const PickWord = ({ word, onClick }) => {
+export const PickWord = ({ word, onClick, playCount }) => {
   const [lWord, setLWord] = useState()
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const PickWord = ({ word, onClick }) => {
       lastWord = -1;
     }
     setLWord(lastWord + 1)
-  }, [])
+  }, [playCount])
 
   const handleChange = e => {
     const val = e.target.value
@@ -33,7 +33,7 @@ export const PickWord = ({ word, onClick }) => {
   const handleClick = e => {
     e.preventDefault()
     localStorage.setItem(storageKey, String(lWord))
-    onClick(words[lWord])
+    onClick(words[lWord], lWord)
   }
 
   if (word) {
@@ -47,4 +47,11 @@ export const PickWord = ({ word, onClick }) => {
       <button className='pick-word-button' type='button' onClick={handleClick}>Go!</button>
     </form>
   )
+}
+
+PickWord.find = w => {
+  if (words.indexOf(w) !== -1) {
+    return true
+  }
+  return false
 }

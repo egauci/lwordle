@@ -4,19 +4,19 @@
   --td-size: 12vmin;
 }
 
-#root {
+#root, body {
   width: 100vw;
   height: 100vh;
-  max-width: 400px;
   overflow: hidden;
-  background: cornsilk;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .App {
   /*height: calc(100% - .8rem);*/
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   padding: 0;
   overflow: hidden;
   background-color: #222;
@@ -90,4 +90,30 @@ main {
 
 .place {
   background-color: rgb(180, 180, 20);
+}
+
+.unused {
+  background-color: rgb(100, 100, 100);
+}
+
+.keyboard {
+  margin-top: 3vh;
+}
+
+.keyboard button {
+  width: 6vw;
+  height: 8vw;
+  margin: .2rem;
+  border-radius: 4px;
+  padding: 0;
+  text-align: center;
+  border-width: 0;
+}
+
+.keyboard button.action {
+  width: 12vw;
+}
+
+.stats {
+  margin-bottom: .8rem;
 }

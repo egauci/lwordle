@@ -1,14 +1,20 @@
+import cloneDeep from 'clone-deep'
 import './App.css'
 import { useState, useEffect, useRef } from 'react'
 import { PickWord } from './components'
-import { initGuesses, Guesses } from './components'
+import { initGuesses, Guesses, KeyBoard, DoneMessage } from './components'
+import { getStats, setStats } from './utils'
 
 function App() {
   const [dims, setDims] = useState({ w: 0, h: 0 })
   const [word, setWord] = useState('')
-  const [guesses, setGuesses] = useState(initGuesses)
+  const [index, setIndex] = useState(-1)
+  const [guesses, setGuesses] = useState(cloneDeep(initGuesses))
   const [currentLine, setCurrentLine] = useState(0)
   const [currentLetter, setCurrentLetter] = useState(0)
+  const [usedLetters, setUsedLetters] = useState({})
+  const [finished, setFinished] = useState(false)
+  const [playCount, setPlayCount] = useState(0)
   const letters = useRef()
 
   useEffect(() => {
@@ -20,14 +26,83 @@ function App() {
     }, 100)
   }, [])
 
-  const handleWordSelect = word => {
+  const handleWordSelect = (word, ix) => {
     const w = word.toUpperCase()
     letters.current = w.split('')
     setWord(w)
-    setGuesses(initGuesses)
+    setIndex(ix)
+    setGuesses(cloneDeep(initGuesses))
   }
 
-  console.log(guesses)
+  const handlKeyClick = val => {
+    if (val === 'del') {
+      setGuesses(g => {
+        g[currentLine][currentLetter - 1] = ' '
+        return g
+      })
+      setCurrentLetter(Math.max(0, currentLetter - 1))
+      return
+    }
+    if (val !== 'enter') {
+      setGuesses(g => {
+        g[currentLine][currentLetter] = val
+        return g
+      })
+      setCurrentLetter(Math.min(5, currentLetter + 1))
+      return
+    }
+    // process enter
+    const line = [...guesses[currentLine]]
+    setUsedLetters(u => {
+      line.forEach((letr, letix) => {
+        let typ
+        if (letr === line[letix]) {
+          typ = 'correct'
+        }
+        if (letr !== letters.current[letix]) {
+          if (letters.current.indexOf(letr) !== -1) {
+            typ = 'place'
+          } else {
+            typ = 'unused'
+          }
+        }
+        u[letr] = typ
+      })
+      return u
+    })
+    const stats = getStats()
+    stats.played += 1
+    if (word === line.join('')) {
+      setFinished(true)
+      stats.won += 1
+    }
+    if (currentLine >= 5) {
+      setFinished(true)
+      stats.lost += 1
+    }
+    setStats(stats)
+    setCurrentLine(currentLine + 1)
+    setCurrentLetter(0)
+  }
+
+  const handleAgainClick = (() => {
+    setPlayCount(c => c + 1)
+    setGuesses(cloneDeep(initGuesses))
+    setUsedLetters({})
+    setCurrentLetter(0)
+    setCurrentLine(0)
+    setFinished(false)
+    setIndex(-1)
+    setWord('')
+  })
+
+  let enterDisabled = true
+  if (currentLetter === 5) {
+    const w = guesses[currentLine].join('').toLowerCase()
+    if (PickWord.find(w)) {
+      enterDisabled = false
+    }
+  }
 
   return (
     <div className="App">
@@ -35,12 +110,28 @@ function App() {
         <h1>Lumina’s Wordle</h1>
       </header>
       <main>
-        <PickWord word={word} onClick={handleWordSelect} />
+        <PickWord word={word} onClick={handleWordSelect} playCount={playCount} />
         <Guesses
           guesses={guesses}
           word={word}
           letters={letters.current}
           currentLine={currentLine}
+        />
+        <KeyBoard
+          usedLetters={usedLetters}
+          word={word}
+          enterDisabled={enterDisabled}
+          delDisabled={currentLetter === 0}
+          onClick={handlKeyClick}
+        />
+        <DoneMessage
+          finished={finished}
+          word={word}
+          index={index}
+          guessCount={currentLine}
+          guess={!finished ? '' : guesses[currentLine - 1].join('')}
+          onClick={handleAgainClick}
+          stats={!finished ? null : getStats()}
         />
       </main>
       {word && <p>The Word is: {word}</p>}
