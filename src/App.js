@@ -45,7 +45,7 @@ function App() {
         g[currentLine][currentLetter] = val
         return g
       })
-      if (currentLetter >= 4) {
+      if (currentLetter >= 4) { // full line entered, make sure it's a dictionary word
         const tline = [...guesses[currentLine]]
         tline[4] = val
         const tword = tline.join('').toLowerCase()
@@ -69,12 +69,11 @@ function App() {
     setUsedLetters(u => {
       line.forEach((letr, letix) => {
         let typ
-        if (letr === line[letix]) {
+        if (letr === letters.current[letix]) {
           typ = 'correct'
-        }
-        if (letr !== letters.current[letix]) {
+        } else {
           if (letters.current.indexOf(letr) !== -1) {
-            typ = 'place'
+            typ = u[letr] === 'correct' ? 'correct' : 'place'
           } else {
             typ = 'unused'
           }
