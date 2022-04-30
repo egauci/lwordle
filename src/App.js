@@ -1,12 +1,12 @@
 import cloneDeep from 'clone-deep'
+import axios from 'axios'
 import './App.css'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { PickWord } from './components'
 import { initGuesses, Guesses, KeyBoard, DoneMessage } from './components'
 import { getStats, setStats } from './utils'
 
 function App() {
-  const [dims, setDims] = useState({ w: 0, h: 0 })
   const [word, setWord] = useState('')
   const [index, setIndex] = useState(-1)
   const [guesses, setGuesses] = useState(cloneDeep(initGuesses))
@@ -15,16 +15,9 @@ function App() {
   const [usedLetters, setUsedLetters] = useState({})
   const [finished, setFinished] = useState(false)
   const [playCount, setPlayCount] = useState(0)
+  const [enterDisabled, setEnterDisabled] = useState(true)
   const letters = useRef()
-
-  useEffect(() => {
-    setTimeout(() => {
-      const el = document.querySelector('.App')
-      const w = el.clientWidth
-      const h = el.clientHeight
-      setDims({w, h})
-    }, 100)
-  }, [])
+  const baseUrl = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 
   const handleWordSelect = (word, ix) => {
     const w = word.toUpperCase()
@@ -34,20 +27,40 @@ function App() {
     setGuesses(cloneDeep(initGuesses))
   }
 
-  const handlKeyClick = val => {
+  const handlKeyClick = async val => {
     if (val === 'del') {
       setGuesses(g => {
         g[currentLine][currentLetter - 1] = ' '
         return g
       })
       setCurrentLetter(Math.max(0, currentLetter - 1))
+      setEnterDisabled(true)
       return
     }
     if (val !== 'enter') {
+      if (currentLetter >= 5) {
+        return
+      }
       setGuesses(g => {
         g[currentLine][currentLetter] = val
         return g
       })
+      if (currentLetter >= 4) {
+        const tline = [...guesses[currentLine]]
+        tline[4] = val
+        const tword = tline.join('').toLowerCase()
+        const url = `${baseUrl}${tword}`
+        try {
+          const { data } = await axios.get(url)
+          if (Array.isArray(data) && data[0].word === tword) {
+            setEnterDisabled(false)
+          }
+        } catch (e) {
+          setEnterDisabled(true)
+        }
+      } else {
+        setEnterDisabled(true)
+      }
       setCurrentLetter(Math.min(5, currentLetter + 1))
       return
     }
@@ -93,16 +106,9 @@ function App() {
     setCurrentLine(0)
     setFinished(false)
     setIndex(-1)
+    setEnterDisabled(true)
     setWord('')
   })
-
-  let enterDisabled = true
-  if (currentLetter === 5) {
-    const w = guesses[currentLine].join('').toLowerCase()
-    if (PickWord.find(w)) {
-      enterDisabled = false
-    }
-  }
 
   return (
     <div className="App">
@@ -134,7 +140,6 @@ function App() {
           stats={!finished ? null : getStats()}
         />
       </main>
-      {word && <p>The Word is: {word}</p>}
     </div>
   );
 }

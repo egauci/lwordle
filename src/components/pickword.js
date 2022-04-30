@@ -49,9 +49,11 @@ export const PickWord = ({ word, onClick, playCount }) => {
   )
 }
 
+/*
 PickWord.find = w => {
   if (words.indexOf(w) !== -1) {
     return true
   }
   return false
 }
+*/
