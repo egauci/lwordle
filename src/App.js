@@ -53,7 +53,7 @@ function App() {
         try {
           const { data } = await axios.get(url)
           if (Array.isArray(data) && data[0].word === tword) {
-            setEnterDisabled(false)
+            setEnterDisabled(false) // current word found in dictionary, let them submit it
           }
         } catch (e) {
           setEnterDisabled(true)
@@ -73,9 +73,9 @@ function App() {
           typ = 'correct'
         } else {
           if (letters.current.indexOf(letr) !== -1) {
-            typ = u[letr] === 'correct' ? 'correct' : 'place'
+            typ = u[letr] === 'correct' ? 'correct' : 'place' // handle repeated letters
           } else {
-            typ = 'unused'
+            typ = 'unused' // does not occur in word at all
           }
         }
         u[letr] = typ
@@ -83,14 +83,16 @@ function App() {
       return u
     })
     const stats = getStats()
-    stats.played += 1
     if (word === line.join('')) {
       setFinished(true)
       stats.won += 1
-    }
-    if (currentLine >= 5) {
-      setFinished(true)
-      stats.lost += 1
+      stats.played += 1
+   } else {
+      if (currentLine >= 5) {
+        setFinished(true)
+        stats.lost += 1
+        stats.played += 1
+      }
     }
     setStats(stats)
     setCurrentLine(currentLine + 1)

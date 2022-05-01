@@ -5,6 +5,9 @@ const keys = [
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'del']
 ]
+
+// keyboard with different pres for unknown, letter not in word, letter in word somwhere,
+// letter in word in known position
 export const KeyBoard = ({ usedLetters, onClick, word, enterDisabled, delDisabled }) => {
 
   const handleClick = e => {
@@ -23,7 +26,7 @@ export const KeyBoard = ({ usedLetters, onClick, word, enterDisabled, delDisable
           return (
             <div key={rowix} className={`row${rowix}`}>
               {
-                row.map((letr, letix) => {
+                row.map(letr => {
                   let cls = (letr === 'enter' || letr === 'del') ? 'action' : 'letter'
                   cls = classnames(cls, usedLetters[letr])
                   return (

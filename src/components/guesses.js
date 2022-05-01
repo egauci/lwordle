@@ -7,13 +7,14 @@ export const initGuesses = [
     [' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ']
-  ]
-
+]
+// table of guesses, with classNames for showing progress
 export const Guesses = ({ guesses, word, letters, currentLine }) => {
 
   const letterCount = useRef({})
 
   useEffect(() => {
+    // count the number of times a letter occurs in the target word
     if (!word) {
       return
     }
@@ -42,12 +43,12 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
                 let cls = ''
                 if (td !== ' ' && trix !== currentLine) {
                   const letr = letters[tdix]
-                  if (letCnt[td]) {
+                  if (letCnt[td]) { // letter occurs in word
                     letCnt[td] -= 1
                     if (letr === td) {
-                      cls = 'correct'
+                      cls = 'correct'  // occurs here
                     } else {
-                      cls = 'place'
+                      cls = 'place'   // occurs in a different spot
                     }
                   }
                 }
