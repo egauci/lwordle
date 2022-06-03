@@ -2,8 +2,7 @@ import cloneDeep from 'clone-deep'
 import axios from 'axios'
 import './App.css'
 import { useState, useRef } from 'react'
-import { PickWord } from './components'
-import { initGuesses, Guesses, KeyBoard, DoneMessage } from './components'
+import { initGuesses, Guesses, KeyBoard, DoneMessage, PickWord } from './components'
 import { getStats, setStats } from './utils'
 
 function App() {
