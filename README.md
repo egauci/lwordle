@@ -10,7 +10,7 @@ This is a webapp initialized using create-react-app. It is entirely client-side 
 
 ### The Words
 
-I found a list of English words somewhere and filtered out anything that wasn't exactly five letters long. Many of the words looked a little wonky, so I further filtered them against this api: https://api.dictionaryapi.dev/api/v2/entries/en/. I finally ended up with 2302 entries which I then shuffled so they are no longer in alphabetical order.
+I found a list of English words somewhere and filtered out anything that wasn't exactly five letters long. Many of the words looked a little wonky, so I further filtered them against this api: https://api.dictionaryapi.dev/api/v2/entries/en/. I finally ended up with 2303 entries which I then shuffled so they are no longer in alphabetical order.
 
 ## Compatibility
 
@@ -26,6 +26,6 @@ The code uses this free dictionary API: https://dictionaryapi.dev. Please respec
 
 ## Game Play
 
-On loading, you are presented with a picker which allows you to choose one of the 2302 entries. Left alone, the game uses local storage to proceed from 1 to 2302 and then start over. Optionally you can enter your own number. This is useful for challenging your friends to solve a specific puzzle.
+On loading, you are presented with a picker which allows you to choose one of the 2303 entries. Left alone, the game uses local storage to proceed from 0 to 2302 and then start over. Optionally you can enter your own number. This is useful for challenging your friends to solve a specific puzzle.
 
 Other than that, it is hopefully similar to the offical New York Times Wordle. The "enter" key is enabled once you enter five letters and the word is valid in the dictionary API.
