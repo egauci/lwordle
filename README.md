@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# Lumina‘s Wordle
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Background
 
-## Available Scripts
+My friend Lumina loves playing Wordle. However she was dismayed that there was only one word per day. I searched for apps and other solutions, but they are generally crawling with unpleasant ads. I decided to do a simple work-alike and completely non-commerial solution for my friend.
 
-In the project directory, you can run:
+### Technical Background
 
-### `npm start`
+This is a webapp initialized using create-react-app. It is entirely client-side with no server depencencies. It can be served by any static web server.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The Words
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+I found a list of English words somewhere and filtered out anything that wasn't exactly five letters long. Many of the words looked a little wonky, so I further filtered them against this api: https://api.dictionaryapi.dev/api/v2/entries/en/. I finally ended up with 2302 entries which I then shuffled so they are no longer in alphabetical order.
 
-### `npm test`
+## Compatibility
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Any modern browser should work. I've tested on iPhone with Safari, Chrome, and Edge and on Mac in Safari. The _share_ function requires browser support for _navigator.share_. Note that this web api requires a secure connection (https).
 
-### `npm run build`
+The game wants to be played in portrait aspect ratio.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Obviously Worlde is owned by The New York Times. However, the many clones suggest that they don't mind a little loving imitation. I won't ever attempt to monetize this. If you stumble on this code, you may do whatever you want with it as far as I'm concerned. However The New York Times may have other thoughts and I cannot, and do not, speak for them.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The code uses this free dictionary API: https://dictionaryapi.dev. Please respect them and if you intend to make heavy use maybe chat with them first.
 
-### `npm run eject`
+## Game Play
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+On loading, you are presented with a picker which allows you to choose one of the 2302 entries. Left alone, the game uses local storage to proceed from 1 to 2302 and then start over. Optionally you can enter your own number. This is useful for challenging your friends to solve a specific puzzle.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Other than that, it is hopefully similar to the offical New York Times Wordle. The "enter" key is enabled once you enter five letters and the word is valid in the dictionary API.
