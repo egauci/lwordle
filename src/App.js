@@ -111,6 +111,11 @@ function App() {
     setWord('')
   })
 
+  const handleShareClick = () => {
+    const r = Guesses.forSharing(guesses, letters.current, currentLine, index)
+    navigator.share({text: r})
+  }
+
   return (
     <div className="App">
       <header>
@@ -137,7 +142,8 @@ function App() {
           index={index}
           guessCount={currentLine}
           guess={!finished ? '' : guesses[currentLine - 1].join('')}
-          onClick={handleAgainClick}
+          onAgainClick={handleAgainClick}
+          onShareClick={handleShareClick}
           stats={!finished ? null : getStats()}
         />
       </main>

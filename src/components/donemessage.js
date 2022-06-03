@@ -1,4 +1,4 @@
-export const DoneMessage = ({ word, finished, guess, index, guessCount, onClick, stats }) => {
+export const DoneMessage = ({ word, finished, guess, index, guessCount, onAgainClick, onShareClick, stats }) => {
   if (!word || !finished) {
     return null
   }
@@ -16,7 +16,10 @@ export const DoneMessage = ({ word, finished, guess, index, guessCount, onClick,
         won: {stats.won}<br />
         lost: {stats.lost}
       </div>
-      <div><button onClick={onClick}>Play Again</button></div>
+      <div className="done-buttons">
+        <button onClick={onAgainClick}>Play Again</button>
+        <button onClick={onShareClick}>Share</button>
+      </div>
     </div>
   )
 }

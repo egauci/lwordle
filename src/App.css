@@ -123,3 +123,8 @@ main {
 .stats {
   margin-bottom: .8rem;
 }
+
+.done-buttons {
+  display: flex;
+  justify-content: space-around;
+}

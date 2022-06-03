@@ -61,3 +61,34 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
     </tbody>
   </table>
 }
+
+Guesses.forSharing = (guesses, letters, currentLine, index) => {
+  const letterCount = {}
+  letters.forEach(l => {
+    letterCount[l] = letterCount[l] ? letterCount[l] + 1 : 1
+  })
+
+  const res = guesses.map((tr, trix) => {
+    if (trix >= currentLine) {
+      return ''
+    }
+    const line = tr.map((td, tdix) => {
+      const letCnt = Object.assign({}, letterCount)
+      const letr = letters[tdix]
+      if (letCnt[td]) {
+        letCnt[td] -= 1
+        if (letr === td) {
+          return '🟩'
+        } else {
+          return '🟨'
+        }
+      } else {
+        //return '⬜'
+        return '⬛'
+      }
+    })
+    return `${line.join('')}\n`
+  })
+
+  return `Lumina's Wordle ${index} ${currentLine}/6\n\n${res.join('')}`
+}
