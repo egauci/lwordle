@@ -99,7 +99,7 @@ function App() {
     setCurrentLetter(0)
   }
 
-  const handleAgainClick = (() => {
+  const handleAgainClick = () => {
     setPlayCount(c => c + 1)
     setGuesses(cloneDeep(initGuesses))
     setUsedLetters({})
@@ -109,7 +109,7 @@ function App() {
     setIndex(-1)
     setEnterDisabled(true)
     setWord('')
-  })
+  }
 
   const handleShareClick = () => {
     const r = Guesses.forSharing(guesses, letters.current, currentLine, index)
