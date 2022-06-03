@@ -101,19 +101,31 @@ main {
 }
 
 .keyboard {
-  margin-top: 3vh;
+  margin-top: 2.5vh;
 }
 
 .keyboard button {
-  width: 6vw;
+  width: 7.4vw;
   height: 8vw;
-  margin: .2rem;
+  margin: .35rem 0.8vw;
   border-radius: 4px;
   padding: 0;
   text-align: center;
   border-width: 0;
   font-weight: bolder;
   font-size: 3.6vw;
+}
+
+.keyboard button:first-of-type {
+  margin-left: 0;
+}
+
+.keyboard button:last-of-type {
+  margin-right: 0;
+}
+
+.keyboard .row0 button {
+  margin-top: 0;
 }
 
 .keyboard button.action {

@@ -8,7 +8,7 @@ const keys = [
 
 // keyboard with different pres for unknown, letter not in word, letter in word somwhere,
 // letter in word in known position
-export const KeyBoard = ({ usedLetters, onClick, word, enterDisabled, delDisabled }) => {
+export const KeyBoard = ({ usedLetters, onClick, word, enterDisabled, delDisabled, finished }) => {
 
   const handleClick = e => {
     const b = e.target.nodeName === 'BUTTON' ? e.target : e.target.parentElement
@@ -16,7 +16,7 @@ export const KeyBoard = ({ usedLetters, onClick, word, enterDisabled, delDisable
     onClick(val)
   }
 
-  if (!word) {
+  if (!word || finished) {
     return null
   }
   return (

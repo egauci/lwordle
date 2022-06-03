@@ -111,9 +111,13 @@ function App() {
     setWord('')
   }
 
-  const handleShareClick = () => {
+  const handleShareClick = async () => {
     const r = Guesses.forSharing(guesses, letters.current, currentLine, index)
-    navigator.share({text: r})
+    try {
+      await navigator.share({text: r})
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
@@ -135,6 +139,7 @@ function App() {
           enterDisabled={enterDisabled}
           delDisabled={currentLetter === 0}
           onClick={handlKeyClick}
+          finished={finished}
         />
         <DoneMessage
           finished={finished}
