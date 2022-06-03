@@ -8,6 +8,22 @@ export const initGuesses = [
     [' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ']
 ]
+
+const lookAhead = (tr, td, tdix, letCnt) => {
+  // is this letter's only remaining occurrance an exact match later in the word?
+  if (letCnt > 1) {
+    return false
+  }
+  let i = tdix + 1
+  while (i < 5) {
+    if (tr[i] === td) {
+      return true
+    }
+    i += 1
+  }
+  return false
+}
+
 // table of guesses, with classNames for showing progress
 export const Guesses = ({ guesses, word, letters, currentLine }) => {
 
@@ -43,12 +59,15 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
                 let cls = ''
                 if (td !== ' ' && trix !== currentLine) {
                   const letr = letters[tdix]
-                  if (letCnt[td]) { // letter occurs in word
+                  if (letr === td) {
+                    cls = 'correct'
                     letCnt[td] -= 1
-                    if (letr === td) {
-                      cls = 'correct'  // occurs here
-                    } else {
-                      cls = 'place'   // occurs in a different spot
+                  } else {
+                    if (letCnt[td]) { // letter occurs in word
+                      if (!lookAhead(tr, td, tdix, letCnt[td])) {
+                        letCnt[td] -= 1
+                        cls = 'place'   // occurs in a different spot
+                      }
                     }
                   }
                 }
@@ -75,17 +94,18 @@ Guesses.forSharing = (guesses, letters, currentLine, index) => {
     const line = tr.map((td, tdix) => {
       const letCnt = Object.assign({}, letterCount)
       const letr = letters[tdix]
-      if (letCnt[td]) {
+      if (letr === td) {
         letCnt[td] -= 1
-        if (letr === td) {
-          return '🟩'
-        } else {
-          return '🟨'
-        }
+        return '🟩'
       } else {
-        //return '⬜'
-        return '⬛'
+        if (letCnt[td]) {
+          if (!lookAhead(tr, td, tdix, letCnt[td])) {
+            letCnt[td] -= 1
+            return '🟨'
+          }
+        }
       }
+      return '⬛'
     })
     return `${line.join('')}\n`
   })
