@@ -18,7 +18,7 @@ export const DoneMessage = ({ word, finished, guess, index, guessCount, onAgainC
       </div>
       <div className="done-buttons">
         <button onClick={onAgainClick}>Play Again</button>
-        <button onClick={onShareClick}>Share</button>
+        {navigator && navigator.share && <button onClick={onShareClick}>Share</button>}
       </div>
     </div>
   )

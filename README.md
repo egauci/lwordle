@@ -6,7 +6,7 @@ My friend Lumina loves playing Wordle. However she was dismayed that there was o
 
 ### Technical Background
 
-This is a webapp initialized using create-react-app. It is entirely client-side with no server depencencies. It can be served by any static web server.
+This is a webapp initialized using create-react-app. It can be served by any static web server.
 
 ### The Words
 
