@@ -1,9 +1,9 @@
+import { useState, useRef } from 'react'
 import cloneDeep from 'clone-deep'
 import axios from 'axios'
-import './App.css'
-import { useState, useRef } from 'react'
 import { initGuesses, Guesses, KeyBoard, DoneMessage, PickWord } from './components'
 import { getStats, setStats } from './utils'
+import './App.css'
 
 function App() {
   const [word, setWord] = useState('')
@@ -36,7 +36,7 @@ function App() {
       setEnterDisabled(true)
       return
     }
-    if (val !== 'enter') {
+    if (val !== 'enter') { // must be a letter key
       if (currentLetter >= 5) {
         return
       }
@@ -63,7 +63,7 @@ function App() {
       setCurrentLetter(Math.min(5, currentLetter + 1))
       return
     }
-    // process enter
+    // process enter key
     const line = [...guesses[currentLine]]
     setUsedLetters(u => {
       line.forEach((letr, letix) => {
@@ -98,7 +98,7 @@ function App() {
     setCurrentLetter(0)
   }
 
-  const handleAgainClick = () => {
+  const handleAgainClick = () => { // play again
     setPlayCount(c => c + 1)
     setGuesses(cloneDeep(initGuesses))
     setUsedLetters({})
@@ -110,7 +110,7 @@ function App() {
     setWord('')
   }
 
-  const handleShareClick = async () => {
+  const handleShareClick = async () => { // share
     const r = Guesses.forSharing(guesses, letters.current, currentLine, index)
     try {
       await navigator.share({text: r})

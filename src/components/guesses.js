@@ -11,17 +11,10 @@ export const initGuesses = [
 
 const lookAhead = (tr, td, tdix, letCnt) => {
   // is this letter's only remaining occurrance an exact match later in the word?
-  if (letCnt > 1) {
+  if (letCnt > 1 || tdix >= 4) {
     return false
   }
-  let i = tdix + 1
-  while (i < 5) {
-    if (tr[i] === td) {
-      return true
-    }
-    i += 1
-  }
-  return false
+  return tr.slice(tdix + 1).some(itm => itm === td)
 }
 
 // table of guesses, with classNames for showing progress
@@ -52,7 +45,7 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
           if (trix > 5) {
             return null
           }
-          const letCnt = Object.assign({}, letterCount.current)
+          const letCnt = {...letterCount.current}
           return <tr key={trix}>
             {
               tr.map((td, tdix) => {
@@ -81,6 +74,7 @@ export const Guesses = ({ guesses, word, letters, currentLine }) => {
   </table>
 }
 
+// class method for returning scrubbed info for sharing with SMS
 Guesses.forSharing = (guesses, letters, currentLine, index) => {
   const letterCount = {}
   letters.forEach(l => {
@@ -92,7 +86,7 @@ Guesses.forSharing = (guesses, letters, currentLine, index) => {
       return ''
     }
     const line = tr.map((td, tdix) => {
-      const letCnt = Object.assign({}, letterCount)
+      const letCnt = {...letterCount}
       const letr = letters[tdix]
       if (letr === td) {
         letCnt[td] -= 1
@@ -110,5 +104,5 @@ Guesses.forSharing = (guesses, letters, currentLine, index) => {
     return `${line.join('')}\n`
   })
 
-  return `Lumina's Wordle ${index} ${currentLine}/6\n\n${res.join('')}`
+  return `Lumina’s Wordle ${index} ${currentLine}/6\n\n${res.join('')}`
 }
