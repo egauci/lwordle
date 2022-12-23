@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 //import reportWebVitals from './reportWebVitals';
 
+if (window.location.host !== 'localhost') { // enforce https
+  if (window.location.protocol !== 'https:') {
+    const url = `https://${window.location.host}`
+    window.location.replace(url)
+  }
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
